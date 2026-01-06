@@ -79,6 +79,9 @@ const HQGitignore = `# Gas Town HQ .gitignore
 # Crew workspaces (user-managed)
 **/crew/
 
+# Shared bare repos (created by 'gt rig add')
+**/.repo.git/
+
 # =============================================================================
 # Runtime state directories (gitignored ephemeral data)
 # =============================================================================
