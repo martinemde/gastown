@@ -318,10 +318,17 @@ func resolvePathToSession(path string) (string, error) {
 var claudeEnvVars = []string{
 	// Claude API and config
 	"ANTHROPIC_API_KEY",
+	"ANTHROPIC_MODEL",
+	"CLAUDE_CONFIG_DIR",
 	"CLAUDE_CODE_USE_BEDROCK",
+	"CLAUDE_USE_BEDROCK",
 	// AWS vars for Bedrock
 	"AWS_PROFILE",
 	"AWS_REGION",
+	"AWS_DEFAULT_REGION",
+	"AWS_ACCESS_KEY_ID",
+	"AWS_SECRET_ACCESS_KEY",
+	"AWS_SESSION_TOKEN",
 }
 
 // buildRestartCommand creates the command to run when respawning a session's pane.
