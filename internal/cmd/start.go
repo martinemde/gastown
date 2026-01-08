@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/steveyegge/gastown/internal/claude"
 	"github.com/steveyegge/gastown/internal/config"
+	"github.com/steveyegge/gastown/internal/daemon"
 	"github.com/steveyegge/gastown/internal/constants"
 	"github.com/steveyegge/gastown/internal/crew"
 	"github.com/steveyegge/gastown/internal/git"
@@ -489,6 +490,17 @@ func categorizeSessions(sessions []string, mayorSession, deaconSession string) (
 func runGracefulShutdown(t *tmux.Tmux, gtSessions []string, townRoot string) error {
 	fmt.Printf("Graceful shutdown of Gas Town (waiting up to %ds)...\n\n", shutdownWait)
 
+	// Stop gt daemon first (prevents it from respawning killed sessions)
+	if townRoot != "" {
+		fmt.Println("Stopping gt daemon...")
+		if err := daemon.StopDaemon(townRoot); err != nil {
+			fmt.Printf("  %s Warning: could not stop daemon: %v\n", style.Dim.Render("!"), err)
+		} else {
+			fmt.Printf("  %s Daemon stopped\n", style.Bold.Render("✓"))
+		}
+		fmt.Println()
+	}
+
 	// Phase 1: Send ESC to all agents to interrupt them
 	fmt.Printf("Phase 1: Sending ESC to %d agent(s)...\n", len(gtSessions))
 	for _, sess := range gtSessions {
@@ -540,6 +552,15 @@ func runGracefulShutdown(t *tmux.Tmux, gtSessions []string, townRoot string) err
 
 func runImmediateShutdown(t *tmux.Tmux, gtSessions []string, townRoot string) error {
 	fmt.Println("Shutting down Gas Town...")
+
+	// Stop gt daemon first (prevents it from respawning killed sessions)
+	if townRoot != "" {
+		if err := daemon.StopDaemon(townRoot); err != nil {
+			fmt.Printf("Warning: could not stop daemon: %v\n", err)
+		} else {
+			fmt.Println("Daemon stopped")
+		}
+	}
 
 	mayorSession := getMayorSessionName()
 	deaconSession := getDeaconSessionName()
