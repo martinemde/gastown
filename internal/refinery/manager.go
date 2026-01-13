@@ -240,12 +240,6 @@ func (m *Manager) Start(foreground bool) error {
 		Topic:     "patrol",
 	}) // Non-fatal
 
-	// GUPP: Gas Town Universal Propulsion Principle
-	// Send the propulsion nudge to trigger autonomous patrol execution.
-	// Wait for beacon to be fully processed (needs to be separate prompt)
-	time.Sleep(2 * time.Second)
-	_ = t.NudgeSession(sessionID, session.PropulsionNudgeForRole("refinery", refineryRigDir)) // Non-fatal
-
 	return nil
 }
 

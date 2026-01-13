@@ -125,12 +125,6 @@ func (m *Manager) Start(agentOverride string) error {
 		Topic:     "cold-start",
 	}) // Non-fatal
 
-	// GUPP: Gas Town Universal Propulsion Principle
-	// Send the propulsion nudge to trigger autonomous coordination.
-	// Wait for beacon to be fully processed (needs to be separate prompt)
-	time.Sleep(2 * time.Second)
-	_ = t.NudgeSession(sessionID, session.PropulsionNudgeForRole("mayor", mayorDir)) // Non-fatal
-
 	return nil
 }
 

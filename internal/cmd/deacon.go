@@ -390,12 +390,6 @@ func startDeaconSession(t *tmux.Tmux, sessionName, agentOverride string) error {
 		Topic:     "patrol",
 	}) // Non-fatal
 
-	// GUPP: Gas Town Universal Propulsion Principle
-	// Send the propulsion nudge to trigger autonomous patrol execution.
-	// Wait for beacon to be fully processed (needs to be separate prompt)
-	time.Sleep(2 * time.Second)
-	_ = t.NudgeSession(sessionName, session.PropulsionNudgeForRole("deacon", deaconDir)) // Non-fatal
-
 	return nil
 }
 

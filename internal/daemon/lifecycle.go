@@ -398,11 +398,6 @@ func (d *Daemon) restartSession(sessionName, identity string) error {
 		Topic:     "lifecycle-restart",
 	}) // Non-fatal
 
-	// Send propulsion nudge to trigger autonomous execution.
-	// Wait for beacon to be fully processed (needs to be separate prompt)
-	time.Sleep(2 * time.Second)
-	_ = d.tmux.NudgeSession(sessionName, session.PropulsionNudgeForRole(parsed.RoleType, workDir)) // Non-fatal
-
 	return nil
 }
 
